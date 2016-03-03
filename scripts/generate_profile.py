@@ -7,7 +7,7 @@
 #
 # You can download the SDK at http://www.thisisant.com/
 #
-# WARNING: This is only known to work with FIT SDK versions up to 5.10
+# WARNING: This is only known to work with FIT SDK versions up to 13.20
 #
 
 from collections import namedtuple
@@ -354,6 +354,7 @@ def maybe_decode(o):
         return o.decode()
     return o
 
+
 def parse_messages(messages_rows, type_list):
     message_list = MessageList([])
 
@@ -442,7 +443,7 @@ def parse_messages(messages_rows, type_list):
                 )
 
                 assert len(subfield.ref_fields) == len(ref_field_names)
-                if not "alert_type" in ref_field_names:
+                if "alert_type" not in ref_field_names:
                     field.subfields.append(subfield)
 
     # Resolve reference fields for subfields and components
@@ -523,16 +524,16 @@ def main(input_xls_or_zip, output_py_path=None):
     if output_py_path:
         open(output_py_path, 'w').write(output)
         print("Profile%s written to %s",
-            ' version %s' % profile_version if profile_version else '',
-            output_py_path
-        )
+              ' version %s' % profile_version if profile_version else '',
+              output_py_path
+              )
     else:
         print(output.strip())
 
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print("Usage: %s <FitSDK.zip | Profile.xls> [profile.py]", os.path.basename(__file__))
+        print("Usage: {} <FitSDK.zip | Profile.xls> [profile.py]".format(os.path.basename(__file__)))
         sys.exit(0)
 
     xls = sys.argv[1]
